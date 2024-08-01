@@ -1,0 +1,96 @@
+# ChorIn - Cleaning Company Management System
+
+## Overview
+
+ChorIn is a comprehensive management system for a cleaning company, allowing customers to create and manage cleaning jobs, and administrators to manage cleaners. The application provides a seamless experience for both customers and cleaners with real-time status tracking and notifications.
+
+## Features
+
+1. **Job Creation and Management**
+   - Allows customers to create new cleaning jobs.
+   - Specify job details such as location and description.
+   - Track the status of requests.
+
+2. **Cleaner Assignment**
+   - Automatically matches available cleaners with new job requests.
+   - Manages cleaners' availability and unavailability status.
+
+3. **Status Tracking and Notifications**
+   - Provides real-time updates and notifications to both customers and cleaners.
+   - Notifications include when a job is accepted, started, and completed.
+
+4. **Job Management**
+   - Users can delete pending jobs.
+   - Users can mark jobs as complete or update job details.
+
+5. **Admin Features**
+   - Admins can create and delete cleaners.
+   - Admins have the ability to manage the overall system.
+
+## Template Information
+
+- **Template Name:** CleanMe - Cleaning Company Website Template
+- **Template Link:** [https://htmlcodex.com/cleaning-company-website-template](https://htmlcodex.com/cleaning-company-website-template)
+- **Template License:** [https://htmlcodex.com/license](https://htmlcodex.com/license) (or read the LICENSE.txt file)
+- **Template Author:** HTML Codex
+- **Author Website:** [https://htmlcodex.com](https://htmlcodex.com)
+- **About HTML Codex:** HTML Codex is one of the top creators and publishers of Free HTML templates, HTML landing pages, HTML email templates, and HTML snippets in the world. Read more at [https://htmlcodex.com/about-us](https://htmlcodex.com/about-us)
+
+## Getting Started
+
+### Prerequisites
+
+- PHP 7.4 or higher
+- MySQL 5.7 or higher
+- A web server (e.g., Apache)
+
+### Installation
+
+
+2. Navigate to the project directory:
+    ```bash
+    cd Chorin
+    ```
+
+3. Import the database:
+    - Create a database named `cleanme`.
+    - Import the `cleanme.sql` file into the database.
+
+4. Update the database configuration:
+    - Open `settings/connection.php`.
+    - Set your database host, username, password, and database name.
+
+5. Start the server and access the application:
+    - Place the project in your web server's root directory.
+    - Open your web browser and navigate to `http://localhost/cleanme`.
+
+## Usage
+
+- **Customer Dashboard:**
+  - Create new jobs and track their status.
+  - View notifications about job status changes.
+  
+- **Cleaner Dashboard:**
+  - View assigned jobs and update their status.
+  - Manage personal availability.
+
+- **Admin Dashboard:**
+  - Manage cleaners (create and delete).
+  - Oversee all job requests and assignments.
+   Manage services (create and delete).
+
+## Contributing
+
+We welcome contributions to improve CleanMe. Please fork the repository and create a pull request with your changes.
+
+## License
+
+This project is licensed under the terms of the [HTML Codex License](https://htmlcodex.com/license).
+
+## Acknowledgments
+
+- Special thanks to [HTML Codex](https://htmlcodex.com) for the template.
+
+## Contact
+
+For any inquiries or support, please contact [yourname@example.com](mailto:yourname@example.com).
