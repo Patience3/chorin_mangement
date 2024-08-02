@@ -1,7 +1,3 @@
-<?php
-session_start();
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,11 +6,12 @@ session_start();
 <title>ChorIn - Sign Up</title>
 <link rel="stylesheet" href="../css/styles.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <div class="container">
     <h2>Sign Up</h2>
-    <form action="../actions/signup_user_action.php" method="POST">
+    <form id="signupForm" action="../actions/signup_user_action.php" method="POST">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" value="<?php echo isset($_SESSION['form_data']['name']) ? $_SESSION['form_data']['name'] : ''; ?>" required>
         <label for="email">Email:</label>
@@ -31,66 +28,77 @@ session_start();
 </div>
 
 <script>
-<?php
-if (isset($_SESSION['status'])) {
-    if ($_SESSION['status'] == 'exists') {
-        echo "Swal.fire({
-                icon: 'error',
-                title: 'Registration Failed',
-                text: 'User with the same email already exists',
-                showConfirmButton: true
-              });";
-    } elseif ($_SESSION['status'] == 'mismatch') {
-        echo "Swal.fire({
-                icon: 'error',
-                title: 'Registration Failed',
-                text: 'Passwords do not match',
-                showConfirmButton: true
-              });";
-    } elseif ($_SESSION['status'] == 'invalid_name') {
-        echo "Swal.fire({
-                icon: 'error',
-                title: 'Registration Failed',
-                text: 'Name can only contain alphabets',
-                showConfirmButton: true
-              });";
-    } elseif ($_SESSION['status'] == 'short_password') {
-        echo "Swal.fire({
-                icon: 'error',
-                title: 'Registration Failed',
-                text: 'Password must be at least 8 characters long',
-                showConfirmButton: true
-              });";
-    } elseif ($_SESSION['status'] == 'pattern_password') {
-        echo "Swal.fire({
-                icon: 'error',
-                title: 'Registration Failed',
-                text: 'Password must include both letters and numbers',
-                showConfirmButton: true
-              });";
-    } elseif ($_SESSION['status'] == 'success') {
-        echo "Swal.fire({
-                icon: 'success',
-                title: 'Account Created',
-                text: 'Your account has been successfully created!',
-                showConfirmButton: true
-              }).then(() => {
-                window.location.href = '../login/login_view.php';
-              });";
-    } elseif ($_SESSION['status'] == 'error') {
-        $errorMsg = $_SESSION['error_msg'];
-        echo "Swal.fire({
-                icon: 'error',
-                title: 'Registration Failed',
-                text: 'Error: $errorMsg',
-                showConfirmButton: true
-              });";
-    }
-    unset($_SESSION['status']);
-    unset($_SESSION['error_msg']);
-    unset($_SESSION['form_data']); // Clear form data after displaying the message
-}
-?>
+$(document).ready(function() {
+    $('#email').on('blur', function() {
+        var email = $(this).val();
+        if (email.length > 0) {
+            $.ajax({
+                url: '../actions/signup_user_action.php',
+                type: 'POST',
+                data: { email: email },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status == 'exists') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Registration Failed',
+                            text: response.message,
+                            showConfirmButton: true
+                        });
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error('AJAX error:', textStatus, errorThrown);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'An unexpected error occurred during email validation.',
+                        showConfirmButton: true
+                    });
+                }
+            });
+        }
+    });
+
+    $('#signupForm').on('submit', function(e) {
+        e.preventDefault();
+        var form = $(this);
+        $.ajax({
+            url: form.attr('action'),
+            type: form.attr('method'),
+            data: form.serialize(),
+            dataType: 'json',
+            success: function(response) {
+                if (response.status == 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Account Created',
+                        text: 'Your account has been successfully created!',
+                        showConfirmButton: true
+                    }).then(() => {
+                        window.location.href = '../login/login_view.php';
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Registration Failed',
+                        text: response.message,
+                        showConfirmButton: true
+                    });
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('AJAX error:', textStatus, errorThrown);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An unexpected error occurred during form submission.',
+                    showConfirmButton: true
+                });
+            }
+        });
+    });
+});
 </script>
 </body>
 </html>
